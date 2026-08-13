@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Predicción de edad de abulones | Proyecto M2</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Predicción de la edad de abulones</h1>
+    <p class="subtitle">Modelo de regresión (Red Neuronal MLP) entrenado con medidas físicas del dataset
+    <strong>Abalone (UCI Machine Learning Repository)</strong>.</p>
+  </header>
+
+  <section class="info-box">
+    <p><strong>¿Cómo funciona?</strong> Ingresa las medidas físicas del abulón (longitud, altura, pesos)
+    tal como se obtendrían con una balanza y un calibrador. El modelo aplica internamente la
+    imputación de valores faltantes y el escalado necesarios, y estima la <strong>edad en años</strong>
+    (equivalente a los anillos de la concha + 1.5), evitando el conteo manual y destructivo de anillos.</p>
+  </section>
+
+  {% if errors %}
+    <div class="alert alert-error">
+      <strong>Se encontraron errores:</strong>
+      <ul>
+        {% for e in errors %}<li>{{ e }}</li>{% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% if prediction is not none %}
+    <div class="alert alert-success">
+      <strong>Edad estimada:</strong> {{ prediction }} <span>años</span>
+    </div>
+  {% endif %}
+
+  <form method="POST" class="form-grid">
+    {% for f in fields %}
+      <div class="field">
+        <label for="{{ f.name }}">{{ f.label }}</label>
+        <input type="number" step="{{ f.step }}" min="0" name="{{ f.name }}" id="{{ f.name }}"
+               value="{{ values.get(f.name, '') }}" required>
+        <span class="unit">{{ f.unit }}</span>
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn">Predecir edad</button>
+  </form>
+
+  <footer>
+    <p>Proyecto de fin de mes 2 · CRISP-DM · Selección de características · PCA · Despliegue en Render</p>
+  </footer>
+</div>
+</body>
+</html>
