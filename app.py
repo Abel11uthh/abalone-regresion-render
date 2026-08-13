@@ -19,11 +19,11 @@ pipeline = joblib.load(MODEL_PATH)
 # unidades que el dataset original (todas en pulgadas/gramos según UCI,
 # se muestran al usuario con su significado real).
 FIELDS = [
-    {"name": "Length", "label": "Longitud de la concha", "unit": "mm (medida más larga)", "min": 0.0, "max": 1.0, "step": "0.001"},
-    {"name": "Height", "label": "Altura de la concha", "unit": "mm (con la carne dentro)", "min": 0.0, "max": 0.5, "step": "0.001"},
-    {"name": "Whole_weight", "label": "Peso total del abulón", "unit": "gramos", "min": 0.0, "max": 3.0, "step": "0.001"},
-    {"name": "Shucked_weight", "label": "Peso de la carne (sin concha)", "unit": "gramos", "min": 0.0, "max": 1.5, "step": "0.001"},
-    {"name": "Shell_weight", "label": "Peso de la concha seca", "unit": "gramos", "min": 0.0, "max": 1.5, "step": "0.001"},
+    {"name": "Length", "label": "Longitud de la concha", "unit": "mm (medida más larga)", "min": 0.0, "max": 1.0, "step": "0.001", "range_min": 0.075, "range_max": 0.815},
+    {"name": "Height", "label": "Altura de la concha", "unit": "mm (con la carne dentro)", "min": 0.0, "max": 0.5, "step": "0.001", "range_min": 0.01, "range_max": 0.25},
+    {"name": "Whole_weight", "label": "Peso total del abulón", "unit": "gramos", "min": 0.0, "max": 3.0, "step": "0.001", "range_min": 0.002, "range_max": 2.83},
+    {"name": "Shucked_weight", "label": "Peso de la carne (sin concha)", "unit": "gramos", "min": 0.0, "max": 1.5, "step": "0.001", "range_min": 0.001, "range_max": 1.49},
+    {"name": "Shell_weight", "label": "Peso de la concha seca", "unit": "gramos", "min": 0.0, "max": 1.5, "step": "0.001", "range_min": 0.0015, "range_max": 1.0},
 ]
 
 
@@ -62,7 +62,7 @@ def index():
             import pandas as pd
             X_new = pd.DataFrame([submitted_values])[
                 ["Shell_weight", "Height", "Shucked_weight", "Length", "Whole_weight"]
-          ]
+            ]
             try:
                 pred_age = float(pipeline.predict(X_new)[0])
                 prediction = round(pred_age, 2)
@@ -81,4 +81,3 @@ def health():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=False)
-  
