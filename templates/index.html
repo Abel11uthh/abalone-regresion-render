@@ -43,6 +43,7 @@
         <input type="number" step="{{ f.step }}" min="0" name="{{ f.name }}" id="{{ f.name }}"
                value="{{ values.get(f.name, '') }}" required>
         <span class="unit">{{ f.unit }}</span>
+        <span class="range-hint">Rango de datos de entrenamiento: {{ f.range_min }} – {{ f.range_max }}</span>
       </div>
     {% endfor %}
     <button type="submit" class="btn">Predecir edad</button>
